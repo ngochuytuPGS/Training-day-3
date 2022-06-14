@@ -4,7 +4,7 @@ import { ROUTES } from '../../../configs/routes';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 
-interface Props extends RouteProps { }
+interface Props extends RouteProps {}
 
 const ProtectedRoute = (props: Props) => {
   const { ...rest } = props;
@@ -17,8 +17,7 @@ const ProtectedRoute = (props: Props) => {
   return (
     <Redirect
       to={{
-        // pathname: ROUTES.login,
-        pathname: ROUTES.loginClone,
+        pathname: ROUTES.login,
       }}
     />
   );

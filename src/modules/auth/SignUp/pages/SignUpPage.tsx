@@ -31,7 +31,7 @@ const LoginPage = () => {
       if (json?.code === RESPONSE_STATUS_SUCCESS) {
         setSuccessMessage('Đăng ký thành công, tự động chuyển trang sau 5 giây');
         setTimeout(() => {
-          dispatch(replace(ROUTES.loginClone));
+          dispatch(replace(ROUTES.login));
         }, 5000);
         return;
       }
@@ -42,8 +42,8 @@ const LoginPage = () => {
   );
 
   return (
-    <div className='container d-flex justify-content-center align-items-center flex-column'>
-      <img src={logo} alt='' className='login__logo' />
+    <div className="container d-flex justify-content-center align-items-center flex-column">
+      <img src={logo} alt="" className="login__logo" />
       <SignUpForm onSignUp={onSignUp} loading={loading} errorMessage={errorMessage} successMessage={successMessage} />
     </div>
   );

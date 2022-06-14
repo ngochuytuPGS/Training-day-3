@@ -1,7 +1,9 @@
+import { Form, Formik } from 'formik';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ILoginParams, ILoginValidation } from '../../../../models/auth';
-import { validateLogin, validLogin } from '../../utils';
+import { validateLogin } from '../../utils';
+import FormikField from '../../../common/components/FormikField';
 
 interface Props {
   onLogin(values: ILoginParams): void;
@@ -9,108 +11,70 @@ interface Props {
   errorMessage: string;
 }
 
-const LoginForm = (props: Props) => {
-  const { onLogin, loading, errorMessage } = props;
+const LoginForm = ({ onLogin, loading, errorMessage }: Props) => {
+  const formValues: ILoginParams = { email: '', password: '', rememberMe: false };
 
-  const [formValues, setFormValues] = React.useState<ILoginParams>({ email: '', password: '', rememberMe: false });
-  const [validate, setValidate] = React.useState<ILoginValidation>();
+  const validate = React.useCallback((values: ILoginParams): {} | ILoginValidation => {
+    const validation = validateLogin(values);
 
-  const onSubmit = React.useCallback(() => {
-    const validate = validateLogin(formValues);
-
-    setValidate(validate);
-
-    if (!validLogin(validate)) {
-      return;
+    if (validation.email === '' && validation.password === '') {
+      return {};
+    } else {
+      return validation;
     }
-
-    onLogin(formValues);
-  }, [formValues, onLogin]);
+  }, []);
 
   return (
-    <form
-      style={{ maxWidth: '560px', width: '100%' }}
-      noValidate
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit();
-      }}
-      className='row g-3 needs-validation'
-    >
-      {!!errorMessage && (
-        <div className='alert alert-danger' role='alert' style={{ width: '100%' }}>
-          {errorMessage}
-        </div>
-      )}
+    <Formik initialValues={formValues} onSubmit={(values) => onLogin(values)} validate={(values) => validate(values)}>
+      <Form className='row g-3 needs-validation login__form'>
+        {errorMessage && (
+          <div className='alert alert-danger' role='alert'>
+            {errorMessage}
+          </div>
+        )}
 
-      <div className='col-md-12'>
-        <label htmlFor='inputEmail' className='form-label'>
-          <FormattedMessage id='email' />
-        </label>
-        <input
-          type='text'
-          className='form-control'
-          id='inputEmail'
-          value={formValues.email}
-          onChange={(e) => setFormValues({ ...formValues, email: e.target.value })}
+        <FormikField
+          display='column'
+          labelPosition='before'
+          asHTMLElement='input'
+          inputType='text'
+          fieldName='email'
+          fieldClassName='form-control'
+          showFormikValidation={true}
+        />
+        <FormikField
+          display='column'
+          labelPosition='before'
+          asHTMLElement='input'
+          inputType='password'
+          fieldName='password'
+          fieldClassName='form-control'
+          showFormikValidation={true}
+        />
+        <FormikField
+          display='row'
+          labelPosition='after'
+          asHTMLElement='input'
+          inputType='checkbox'
+          fieldName='rememberMe'
+          fieldClassName='form-check-input me-2'
+          showFormikValidation={false}
         />
 
-        {!!validate?.email && (
-          <small className='text-danger'>
-            <FormattedMessage id={validate?.email} />
-          </small>
-        )}
-      </div>
-
-      <div className='col-md-12'>
-        <label htmlFor='inputPassword' className='form-label'>
-          <FormattedMessage id='password' />
-        </label>
-        <input
-          type='password'
-          className='form-control'
-          id='inputPassword'
-          value={formValues.password}
-          onChange={(e) => setFormValues({ ...formValues, password: e.target.value })}
-        />
-
-        {!!validate?.password && (
-          <small className='text-danger'>
-            <FormattedMessage id={validate?.password} />
-          </small>
-        )}
-      </div>
-
-      <div className='col-12'>
-        <div className='form-check'>
-          <input
-            className='form-check-input'
-            type='checkbox'
-            id='invalidCheck'
-            value=''
-            checked={formValues.rememberMe}
-            onChange={(e) => setFormValues({ ...formValues, rememberMe: !!e.target.checked })}
-          />
-          <label className='form-check-label' htmlFor='invalidCheck'>
-            <FormattedMessage id='rememberMe' />
-          </label>
+        <div className='row justify-content-md-center my-3 mx-0'>
+          <div className='col-md-auto'>
+            <button
+              className='btn btn-primary d-flex align-items-center justify-content-center'
+              type='submit'
+              disabled={loading}
+            >
+              {loading && <div className='spinner-border spinner-border-sm text-light me-2' role='status' />}
+              <FormattedMessage id='login' />
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div className='row justify-content-md-center' style={{ margin: '16px 0' }}>
-        <div className='col-md-auto'>
-          <button
-            className='btn btn-primary'
-            type='submit'
-            style={{ minWidth: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            disabled={loading}
-          >
-            {loading && <div className='spinner-border spinner-border-sm text-light mr-2' role='status' />}
-            <FormattedMessage id='login' />
-          </button>
-        </div>
-      </div>
-    </form>
+      </Form>
+    </Formik>
   );
 };
 
