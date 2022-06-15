@@ -5,8 +5,8 @@ import ProtectedRoute from './modules/common/components/ProtectedRoute';
 
 const HomePage = lazy(() => import('./modules/home/pages/HomePage'));
 const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
-const LoginPage = lazy(() => import('./modules/auth/Login/pages/LoginPage'));
-const SignUpPage = lazy(() => import('./modules/auth/SignUp/pages/SignUpPage'));
+const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage'));
+const SignUpPage = lazy(() => import('./modules/auth/pages/SignUpPage'));
 
 interface Props {}
 

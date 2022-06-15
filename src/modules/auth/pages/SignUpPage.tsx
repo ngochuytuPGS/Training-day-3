@@ -3,14 +3,14 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'typesafe-actions';
-import { API_PATHS } from '../../../../configs/api';
-import { ROUTES } from '../../../../configs/routes';
-import logo from '../../../../logo-420-x-108.png';
-import { ISignUpParams } from '../../../../models/auth';
-import { AppState } from '../../../../redux/reducer';
-import { getErrorMessageResponse } from '../../../../utils';
-import { RESPONSE_STATUS_SUCCESS } from '../../../../utils/httpResponseCode';
-import { fetchThunk } from '../../../common/redux/thunk';
+import { API_PATHS } from '../../../configs/api';
+import { ROUTES } from '../../../configs/routes';
+import logo from '../../../logo-420-x-108.png';
+import { ISignUpParams } from '../../../models/auth';
+import { AppState } from '../../../redux/reducer';
+import { getErrorMessageResponse } from '../../../utils';
+import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
+import { fetchThunk } from '../../common/redux/thunk';
 import SignUpForm from '../components/SignUpForm';
 
 const LoginPage = () => {
