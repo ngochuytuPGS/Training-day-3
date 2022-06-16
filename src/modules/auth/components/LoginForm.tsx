@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ILoginParams, ILoginValidation } from '../../../models/auth';
 import { validateLogin } from '../utils';
-import FormikField from '../../common/components/FormikField';
+import FormikField from './FormikField';
 
 interface Props {
   onLogin(values: ILoginParams): void;

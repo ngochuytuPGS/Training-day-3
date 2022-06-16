@@ -8,7 +8,7 @@ import { API_PATHS } from '../../../configs/api';
 import { IGenderParams, ILocationParams, ISignUpParams, ISignUpValidation } from '../../../models/auth';
 import { AppState } from '../../../redux/reducer';
 import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
-import FormikField from '../../common/components/FormikField';
+import FormikField from './FormikField';
 import { fetchThunk } from '../../common/redux/thunk';
 import { validateSignUp } from '../utils';
 
